@@ -1,16 +1,12 @@
 <script>
+	import { goto } from '$app/navigation';
 	import { page } from '$app/stores'
-	import Account from './Account.svelte'
-	import Auth from './Auth.svelte'
+    
+    let route = $page.data.session ? "profil" : "login"
+ 
 </script>
-
-<svelte:head>
-	<title>Supabase + SvelteKit</title>
-	<meta name="description" content="SvelteKit using supabase-js v2" />
-</svelte:head>
-
-{#if !$page.data.session}
-	<Auth />
-{:else}
-	<Account session={$page.data.session} />
-{/if}
+<div>
+    <button on:click={() =>goto("/" + route)}>
+        {route}
+    </button>
+</div>
