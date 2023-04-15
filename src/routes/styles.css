@@ -11,11 +11,15 @@ body {
 	--custom-border: 1px solid #333;
 	--custom-border-radius: 5px;
 	--custom-spacing: 5px;
+	--primary-color:  #003459;
+	--secondary-color: #007ea7;
+	--tertiary-color:  #00a8e8 ;
 
 	padding: 0;
 	margin: 0;
 	font-family: var(--custom-font-family);
-	background-color: var(--custom-bg-color);
+	/* background-color: var(--custom-bg-color); */
+	background: linear-gradient(180deg, var(--primary-color) 20%, var(--secondary-color) 80%, var(--tertiary-color) 100%);
 }
 
 * {

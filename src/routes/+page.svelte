@@ -2,7 +2,7 @@
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores'
     
-    let route = $page.data.session ? "profil" : "login"
+    let route = $page.data.session ? "home" : "login"
  
 </script>
 <div>

@@ -44,7 +44,8 @@
 
 <div class="row flex-center flex" >
 	<div class="col-6 form-widget">
-		<h1 class="header">Supabase + SvelteKit</h1>
+		<h1 class="header">Per 60 år</h1>
+		
 		<p class="description">Sign in via magic link with your email below</p>
 		<div>
 			<input class="inputField" type="email" placeholder="Your email" bind:value={email} />
