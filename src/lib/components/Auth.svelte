@@ -1,34 +1,49 @@
 <script lang="ts">
+	
 	import { supabaseClient } from '$lib/supabaseClient'
-	import type { Provider } from '@supabase/supabase-js';
+	import type { AuthSession } from '@supabase/supabase-js'
+	import { redirect } from '@sveltejs/kit'
+
 
 	let loading = false
-	let providerLoading = false
+
 	let email: string
+	let password: string
+	
 
-	const providerLogin = async (provider : Provider) => {
-		try{
-			console.log("provider")
-			providerLoading = true
-			const { data, error } = await supabaseClient.auth.signInWithOAuth({provider: provider});
-			if (error) throw error
-
-		}  catch (error) {
-			if (error instanceof Error) {
-				alert(error.message)
-			}
-		} finally {
-			providerLoading = false
-			
-		}
-	}
 	const handleLogin = async () => {
 		try {
 			console.log("Login")
 			loading = true
-			const { error } = await supabaseClient.auth.signInWithOtp({ email })
+			  const { data, error } = await supabaseClient.auth.signInWithPassword({
+					email: email,
+					password: password,
+				})
 			if (error) throw error
-			alert("Sjekk mailen din")
+			// if (data.session) $page.data.session = data.session // Jobbe videre her
+			console.log(data)
+			throw redirect(303, "/")
+		} catch (error) {
+			if (error instanceof Error) {
+				alert(error.message)
+			}
+		} finally {
+			loading = false
+			
+		}
+	}
+		const handleSignUp = async () => {
+		try {
+			console.log("Login")
+			loading = true
+			const { data, error } = await supabaseClient.auth.signUp({
+				email: email,
+				password: password,
+			})
+			if (error) throw error
+			// alert("Sjekk mailen din")
+			console.log(data)
+			
 		} catch (error) {
 			if (error instanceof Error) {
 				alert(error.message)
@@ -45,15 +60,17 @@
 <div class="row flex-center flex" >
 	<div class="col-6 form-widget">
 		<h1 class="header">Per 60 år</h1>
-		
-		<p class="description">Sign in via magic link with your email below</p>
+
+		<p class="description">Logg inn for å være med på festen</p>
 		<div>
-			<input class="inputField" type="email" placeholder="Your email" bind:value={email} />
+			<input class="inputField" placeholder="Brukernavn" bind:value={email} />
+			<input class="inputField" placeholder="Passord" bind:value={password} />
 		</div>
 		<div>
-			<button class="button block" disabled={loading} on:click={handleLogin}> {loading ? 'Loading' : 'Send magic link'} </button>
+			<button class="button block" disabled={loading} on:click={handleLogin}> {loading ? 'Loading' : 'Logg inn'} </button>
+			<button class="button block" disabled={loading} on:click={handleSignUp}> {"Registrer ny bruker"} </button>
 		
-			<button on:click={() => providerLogin("google")} disabled={providerLoading} >{providerLoading ? 'Loading' : 'Google'}</button> 
+	
 			
 		</div>
 	</div>

@@ -1,4 +1,6 @@
 <script>
+	import { goto } from '$app/navigation'
+	import { page } from '$app/stores'
 	import Auth from '../../lib/components/Auth.svelte'
 </script>
 
@@ -7,4 +9,8 @@
 	<meta name="description" content="SvelteKit using supabase-js v2" />
 </svelte:head>
 
-<Auth/>
+{#if !$page.data.session}
+	<Auth />
+{:else}
+	{goto("/home")}
+{/if}

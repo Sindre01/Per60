@@ -5,8 +5,10 @@
     let route = $page.data.session ? "home" : "login"
  
 </script>
+
 <div>
+
     <button on:click={() =>goto("/" + route)}>
-        {route}
+        <p>Send inn bilder</p>
     </button>
 </div>

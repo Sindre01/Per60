@@ -1,12 +1,12 @@
 <script>
 	import { page } from '$app/stores'
-	import Account from '../../lib/components/Account.svelte'
-	import Auth from '../../lib/components/Auth.svelte'
+	import Images from '../../lib/components/Images.svelte'
     import { goto } from '$app/navigation';
 </script>
-
+{console.log($page.data.session)}
 {#if !$page.data.session}
 	{goto("/login")}
 {:else}
-	<Account session={$page.data.session} />
+	{console.log("images")}
+	<Images session={$page.data.session} />
 {/if}
