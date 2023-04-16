@@ -6,16 +6,22 @@
  
 </script>
 
-<div >
-    <button class = "button" on:click={() =>goto("/" + route)}>
+<div class ="main">
+    <button class = "buttonSend button primary" on:click={() =>goto("/" + route)}>
         <p>Send inn bilder</p>
     </button>
 </div>
 
 <style>
-    .button {
+    .main {
+        z-index: 2;
+        height: 100%;
+        width: 100%;
+        background-color: coral
+    }
+    .buttonSend {
         position: absolute;
         top: 40vh;
-        left: 40vw;
+        left: 32vw;
     }
 </style>

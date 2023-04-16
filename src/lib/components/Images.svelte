@@ -144,7 +144,7 @@
 	
 		<div class="form-widget addButton" >
 			<div style="width: {10}em;">
-				<label class="button primary block" for="single">
+				<label class="button primary block" style = "padding: 20px;"for="single">
 					{uploading ? 'Laster opp ...' : 'Last opp bilde'}
 				</label>
 				<input
@@ -178,14 +178,11 @@
 		margin-bottom: 50px;
 	}
 
-	.buttons{
-		display: flex;
-		flex-direction: row;
-	}
 	.addButton{
 		position: fixed;
 		bottom: 0px;
 		right: 10px;
+		
 	}
 	.form-widget {
 		display: flex;
