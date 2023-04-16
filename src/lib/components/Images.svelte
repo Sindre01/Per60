@@ -11,6 +11,11 @@
 	let loading = false
 	let images: any[] = []
 	const { user } = session
+	const supabase_url = PUBLIC_SUPABASE_URL + "/storage/v1/object/public/images/";
+	console.log(supabase_url)
+	let uploading = false
+	let files: FileList
+
 
 
 	onMount(() => {
@@ -47,13 +52,6 @@
         	
 		}
 	}
-// slifvgstyifhqavkgudr/storage/buckets/images
-	const supabase_url = PUBLIC_SUPABASE_URL + "/storage/v1/object/public/images/";
-	console.log(supabase_url)
-	let imageUrl: string | null = null
-	let uploading = false
-	let files: FileList
-	let url: string
 
 
 	const downloadZip = async () => {
@@ -125,36 +123,92 @@
 	}
 
 </script>
-
-<form class="form-widget" >
-
-	<div style="width: {10}em;">
-		<label class="button primary block" for="single">
-			{uploading ? 'Uploading ...' : 'Upload'}
-		</label>
-		<input
-			style="visibility: hidden; position:absolute;"
-			type="file"
-			id="single"
-			accept="image/*"
-			bind:files
-			on:change={uploadImage}
-			disabled={uploading}
-		/>
-	</div>
-
-	<div style="width: {10}em;" on:click={downloadZip}>
-		<label class="button primary block" >
-			{uploading ? 'laster ned ...' : 'Last ned alle bilder'}
-		</label>
-		
-	</div>
-
-	{#each images as image}
-		<div >
-		    <img class = "image" src={supabase_url + user.id + "/" + image.name} alt=""/>
+<div>
+	<!-- <h1>Bilder</h1> -->
+	<div class="form-widget" >
+		<div style="width: {10}em;" on:click={downloadZip}>
+			<p class="button primary block">Last ned alle bilder</p>
 		</div>
-	{/each}
-	<div on:click={signOut}>Logg ut</div>
+	</div>
+
+	<div class ="images"> 
+		{#each images as image}
+			<div >
+				<img loading="lazy" class = "image" src={supabase_url + user.id + "/" + image.name} alt=""/>
+			</div>
+		{/each}
+
+	</div>
+	<div class="button primary block" on:click={signOut}>Logg ut</div>
 	
-</form>
+		<div class="form-widget addButton" >
+			<div style="width: {10}em;">
+				<label class="button primary block" for="single">
+					{uploading ? 'Laster opp ...' : 'Last opp bilde'}
+				</label>
+				<input
+					style="visibility: hidden; position:absolute;"
+					type="file"
+					id="single"
+					accept="image/*"
+					bind:files
+					on:change={uploadImage}
+					disabled={uploading}
+				/>
+			</div>
+		</div>
+	
+</div>
+
+<style>
+	@media only screen and (min-width: 601px) {
+		.image{
+			width: 50vw;
+			object-fit: cover;
+		}
+	}
+	@media only screen and (max-width: 600px) {
+		.image{
+			width: 90vw;
+			object-fit: cover;
+		}
+	}
+	.images{
+		margin-bottom: 50px;
+	}
+
+	.buttons{
+		display: flex;
+		flex-direction: row;
+	}
+	.addButton{
+		position: fixed;
+		bottom: 0px;
+		right: 10px;
+	}
+	.form-widget {
+		display: flex;
+		flex-direction: column;
+		gap: 20px;
+	}
+	.form-widget>.button {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border: none;
+	background-color: #444444;
+	text-transform: none !important;
+	transition: all 0.2s ease;
+}
+
+.form-widget .button:hover {
+	background-color: #2a2a2a;
+}
+
+.form-widget .button>.loader {
+	width: 17px;
+	animation: spin 1s linear infinite;
+	filter: invert(1);
+}
+</style>
+

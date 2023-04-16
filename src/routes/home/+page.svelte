@@ -7,6 +7,6 @@
 {#if !$page.data.session}
 	{goto("/login")}
 {:else}
-	{console.log("images")}
 	<Images session={$page.data.session} />
 {/if}
+

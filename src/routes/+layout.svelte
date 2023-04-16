@@ -17,6 +17,19 @@
 	})
 </script>
 
-<div class="container" style="">
+<div class="container" >
 	<slot />
 </div>
+
+<style>
+	.container {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	width: 90%;
+	margin-left: auto;
+	margin-right: auto;
+
+}
+</style>
