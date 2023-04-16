@@ -97,6 +97,7 @@
 			if (error) {
 				throw error
 			}
+			getImages()
 			
 	
 		} catch (error) {
