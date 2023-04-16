@@ -56,6 +56,11 @@ body,
 	min-height: 0.125rem;
 }
 
+.image {
+	height: 200px;
+	width: 200px;
+}
+
 .col-1,
 .col-2,
 .col-3,
