@@ -54,7 +54,7 @@
 </script>
 
 <div class="row flex-center flex" >
-	<div class="col-6 form-widget">
+	<div class="col-6 form-widget login">
 		<h1 class="header">Per 60 år</h1>
 
 		<p class="description">Logg inn for å være med på festen</p>
@@ -71,3 +71,11 @@
 		</div>
 	</div>
 </div>
+<style>
+	.login {
+		/* background-color: #ffffff; */
+		width: 100%;
+		backdrop-filter: blur(6px);
+		margin-top: 10vh;
+	}
+</style>
