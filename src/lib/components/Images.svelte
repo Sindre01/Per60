@@ -2,7 +2,7 @@
 	import { onMount } from 'svelte'
 	import type { AuthSession } from '@supabase/supabase-js'
 	import { supabaseClient } from '$lib/supabaseClient'
-	import {PUBLIC_SUPABASE_URL} from '$env/static/public';
+	import {NEXT_PUBLIC_SUPABASE_URL} from '$env/static/public';
 	import JSZip from "jszip";
 	import { saveAs } from 'file-saver';
 	export let session: AuthSession
@@ -47,7 +47,7 @@
 		}
 	}
 // slifvgstyifhqavkgudr/storage/buckets/images
-	const supabase_url = PUBLIC_SUPABASE_URL + "/storage/v1/object/public/images/";
+	const supabase_url = NEXT_PUBLIC_SUPABASE_URL + "/storage/v1/object/public/images/";
 	console.log(supabase_url)
 	let imageUrl: string | null = null
 	let uploading = false
