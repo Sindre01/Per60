@@ -15,10 +15,10 @@
 		try {
 			console.log("Login")
 			loading = true
-			  const { data, error } = await supabaseClient.auth.signInWithPassword({
-					email: email,
-					password: password,
-				})
+			const { data, error } = await supabaseClient.auth.signInWithPassword({
+				email: email,
+				password: password,
+			})
 			if (error) throw error
 			// if (data.session) $page.data.session = data.session // Jobbe videre her
 			console.log(data)

@@ -109,6 +109,20 @@
 			uploading = false
 		}
 	}
+		async function signOut() {
+		try {
+			loading = true
+			let { error } = await supabaseClient.auth.signOut()
+			if (error) throw error
+		
+		} catch (error) {
+			if (error instanceof Error) {
+				alert(error.message)
+			}
+		} finally {
+			loading = false
+		}
+	}
 
 </script>
 
@@ -141,5 +155,6 @@
 		    <img class = "image" src={supabase_url + user.id + "/" + image.name} alt=""/>
 		</div>
 	{/each}
+	<div on:click={signOut}>Logg ut</div>
 	
 </form>
