@@ -1,16 +1,26 @@
 <script>
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores'
+	import { onMount } from 'svelte'
     
-    let route = $page.data.session ? "home" : "login"
+    // let route = $page.data.session ? "home" : "login"
+    onMount(() => {
+		
+        // route = $page.data.session ? "home" : "login"
+        if ($page.data.session){
+            goto("/home")
+        } else {
+            goto("/login")
+        }
+	})
  
 </script>
 
-<div class ="main">
+<!-- <div class ="main">
     <button class = "buttonSend button primary" on:click={() =>goto("/" + route)}>
         <p>Send inn bilder</p>
     </button>
-</div>
+</div> -->
 
 <style>
     .main {
