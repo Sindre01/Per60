@@ -68,7 +68,7 @@
 		</div>
 		<div>
 			<button class="button block" disabled={loading} on:click={handleLogin}> {loading ? 'Loading' : 'Logg inn'} </button>
-			<button class="button block" disabled={loading} on:click={handleSignUp}> {"Registrer ny bruker"} </button>
+			<!-- <button class="button block" disabled={loading} on:click={handleSignUp}> {"Registrer ny bruker"} </button> -->
 		
 	
 			
