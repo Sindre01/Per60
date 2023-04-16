@@ -22,8 +22,9 @@
 			if (error) throw error
 			// if (data.session) $page.data.session = data.session // Jobbe videre her
 			console.log(data)
-			throw redirect(303, "/")
+			// throw redirect(303, "/")
 		} catch (error) {
+			console.log(error)
 			if (error instanceof Error) {
 				alert(error.message)
 			}
