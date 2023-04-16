@@ -136,8 +136,8 @@
 	</div>
 
 	{#each images as image}
-		<div class ="image">
-		    <img src={supabase_url + user.id + "/" + image.name} alt=""/>
+		<div >
+		    <img class = "image" src={supabase_url + user.id + "/" + image.name} alt=""/>
 		</div>
 	{/each}
 	
