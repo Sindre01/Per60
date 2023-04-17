@@ -55,7 +55,7 @@
 
 <div class="row flex-center flex" >
 	<div class="col-6 form-widget login">
-		<h1 class="header">Per 60 år</h1>
+		<h1 class="header">Per 60 år <span style='font-size:50px;'>&#127881;</span></h1>
 
 		<p class="description">Logg inn for å være med på festen</p>
 		<div>
@@ -74,8 +74,15 @@
 <style>
 	.login {
 		/* background-color: #ffffff; */
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
 		width: 100%;
 		backdrop-filter: blur(6px);
+		background-color: rgb(0, 0, 0);
+		border-radius: 5%;
 		margin-top: 10vh;
+		padding:10px;
 	}
 </style>

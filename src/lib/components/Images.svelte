@@ -7,9 +7,9 @@
 	import JSZip from "jszip";
 	import { saveAs } from 'file-saver';
 	export let session: AuthSession
-
 	let loading = false
 	let images: any[] = []
+	$: loadingAllImages = images.length == 0 ? true : false;
 	const { user } = session
 	const supabase_url = PUBLIC_SUPABASE_URL + "/storage/v1/object/public/images/";
 	console.log(supabase_url)
@@ -29,20 +29,22 @@
 	const getImages= async () => {
 		try {
 			loading = true
+			// loadingAllImages = true
 			const { user } = session
-			console.log("get images")
+			// console.log("get images")
 			 const { data, error } = await supabaseClient
 				.storage
 				.from('images')
 				.list(user?.id + "/", {
-					limit: 100,
+					limit: 1000,
 					offset: 0,
-					sortBy: { column: "name", order: "asc"}
+					sortBy: { column: "created_at", order: "desc"}
 				});
 				console.log(data)
 			if (data) {
-			
+				console.log("Fetched all images")
 				images = data;
+				// loadingAllImages = false;
 			} else {
 				alert("Ingen bilder!")
 			}
@@ -81,7 +83,7 @@
 
 	const uploadImage = async () => {
 		try {
-			console.log("upload image")
+			// console.log("upload image")
 			uploading = true
 
 			if (!files || files.length === 0) {
@@ -89,14 +91,18 @@
 			}
 
 			const file = files[0]
-			const fileExt = file.name.split('.').pop()
-			const filePath = `${Math.random()}.${fileExt}`
-			console.log(filePath)
-			let { data, error } = await supabaseClient.storage.from('images').upload(user?.id + "/" + filePath, file)
-			console.log(data)
+			// const fileExt = file.name.split('.').pop()
+			// const randomId = `${Math.random()}.${fileExt}`
+			// console.log(randomId)
+			const name = new Date().toISOString()
+
+			console.log(name)
+			let { data, error } = await supabaseClient.storage.from('images').upload(user?.id + "/" + name, file)
+			// console.log(data)
 			if (error) {
 				throw error
 			}
+			console.log("uploaded image")
 			getImages()
 			
 	
@@ -124,7 +130,14 @@
 	}
 
 </script>
-<div>
+<div style="margin-bottom: 100px">
+	{#if loadingAllImages}
+		<div class = "loadingScreen">
+			<p style ="color: black;">Laster inn bilder.. </p>
+			<img class = "image" src = "/PerMisterLua.gif" alt="">
+		</div>
+	{:else}
+
 	<!-- <h1>Bilder</h1> -->
 	<div class="form-widget" >
 		<div style="width: {10}em;" on:click={downloadZip}>
@@ -133,14 +146,14 @@
 	</div>
 
 	<div class ="images"> 
-		{#each images as image}
-			<div >
-				<img loading="lazy" class = "image" src={supabase_url + user.id + "/" + image.name} alt=""/>
-			</div>
-		{/each}
-
+	
+			{#each images as image}
+				<div >
+					<img loading="lazy" style = " margin: 0px;" class = "image" src={supabase_url + user.id + "/" + image.name} alt=""/>
+				</div>
+			{/each}
 	</div>
-	<div class="button primary block" on:click={signOut}>Logg ut</div>
+	
 	
 		<div class="form-widget addButton" >
 			<div style="width: {10}em;">
@@ -159,10 +172,20 @@
 			</div>
 		</div>
 	
-</div>
 
+
+{/if}
+
+<div class="button primary block" on:click={signOut}>Logg ut</div>
+</div>
 <style>
-	@media only screen and (min-width: 601px) {
+	@media only screen and (min-width: 1001px) {
+		.image{
+			width: 25vw;
+			object-fit: cover;
+		}
+	}
+	@media only screen and (min-width: 601px) and (max-width: 1000px){
 		.image{
 			width: 50vw;
 			object-fit: cover;
@@ -172,7 +195,18 @@
 		.image{
 			width: 90vw;
 			object-fit: cover;
+			
 		}
+	}
+	.loadingScreen {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		background: #becef6;
+		color: black;
+		border-radius: 20px;
+		margin-bottom: 10px;
 	}
 	.images{
 		margin-bottom: 50px;
