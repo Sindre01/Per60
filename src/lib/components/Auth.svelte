@@ -57,10 +57,10 @@
 	<div class="col-6 form-widget login">
 		<h1 class="header">Per 60 år <span style='font-size:50px;'>&#127881;</span></h1>
 
-		<p class="description">Logg inn for å være med på festen</p>
+		<p class="description">Logg inn for å bidra med bilder</p>
 		<div>
-			<input class="inputField" placeholder="Brukernavn" bind:value={email} />
-			<input class="inputField" placeholder="Passord" bind:value={password} />
+			<input class="" placeholder="Brukernavn" bind:value={email} />
+			<input class="" placeholder="Passord" bind:value={password} />
 		</div>
 		<div>
 			<button class="button block" disabled={loading} on:click={handleLogin}> {loading ? 'Loading' : 'Logg inn'} </button>
@@ -85,4 +85,5 @@
 		margin-top: 10vh;
 		padding:10px;
 	}
+	
 </style>

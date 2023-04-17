@@ -6,10 +6,12 @@
 	import {PUBLIC_SUPABASE_URL} from '$env/static/public';
 	import JSZip from "jszip";
 	import { saveAs } from 'file-saver';
+
 	export let session: AuthSession
-	let loading = false
+	// let loading = false
 	let images: any[] = []
 	$: loadingAllImages = images.length == 0 ? true : false;
+	let noImages = false;
 	const { user } = session
 	const supabase_url = PUBLIC_SUPABASE_URL + "/storage/v1/object/public/images/";
 	console.log(supabase_url)
@@ -19,16 +21,14 @@
 
 
 	onMount(() => {
-		
 		if (user){
-
 			getImages()
 		}
 	})
 
 	const getImages= async () => {
 		try {
-			loading = true
+			// loading = true
 			// loadingAllImages = true
 			const { user } = session
 			// console.log("get images")
@@ -41,17 +41,22 @@
 					sortBy: { column: "created_at", order: "desc"}
 				});
 				console.log(data)
-			if (data) {
+			if (error) throw error
+
+			if (data.length > 0 && data[0].name != ".emptyFolderPlaceholder") {
 				console.log("Fetched all images")
 				images = data;
-				// loadingAllImages = false;
+				noImages = false
 			} else {
-				alert("Ingen bilder!")
+				console.log("No images")
+				// alert("Ingen bilder!")
+				noImages = true;
+        	
 			}
 
 		} catch {
-			alert("Error loading images");
-        	
+			alert("Feil ved lasing av bilder");
+			
 		}
 	}
 
@@ -116,7 +121,7 @@
 	}
 		async function signOut() {
 		try {
-			loading = true
+			// loading = true
 			let { error } = await supabaseClient.auth.signOut()
 			if (error) throw error
 		
@@ -125,54 +130,60 @@
 				alert(error.message)
 			}
 		} finally {
-			loading = false
+			// loading = false
 		}
 	}
 
 </script>
 <div style="margin-bottom: 100px">
-	{#if loadingAllImages}
+
+	{#if loadingAllImages && !noImages}
 		<div class = "loadingScreen">
 			<p style ="color: black;">Laster inn bilder.. </p>
 			<img class = "image" src = "/PerMisterLua.gif" alt="">
 		</div>
 	{:else}
 
-	<!-- <h1>Bilder</h1> -->
-	<div class="form-widget" >
-		<div style="width: {10}em;" on:click={downloadZip}>
-			<p class="button primary block">Last ned alle bilder</p>
-		</div>
-	</div>
-
-	<div class ="images"> 
-	
-			{#each images as image}
-				<div >
-					<img loading="lazy" style = " margin: 0px;" class = "image" src={supabase_url + user.id + "/" + image.name} alt=""/>
-				</div>
-			{/each}
-	</div>
-	
-	
-		<div class="form-widget addButton" >
-			<div style="width: {10}em;">
-				<label class="button primary block" style = "padding: 20px;"for="single">
-					{uploading ? 'Laster opp ...' : 'Last opp bilde'}
-				</label>
-				<input
-					style="visibility: hidden; position:absolute;"
-					type="file"
-					id="single"
-					accept="image/*"
-					bind:files
-					on:change={uploadImage}
-					disabled={uploading}
-				/>
+		<!-- <h1>Bilder</h1> -->
+		<div class="form-widget" >
+			<div style="width: {10}em;" on:click={downloadZip}>
+				<p class="button primary block">Last ned alle bilder</p>
 			</div>
 		</div>
-	
 
+	{#if noImages}
+		<div class = "loadingScreen">
+			<!-- <p style ="color: black;">Legg til bilder  </p> -->
+			<img class = "image" src = "/PerMisterLua.gif" alt="">
+		</div>
+	{:else}
+		<div class ="images"> 
+				{#each images as image}
+					<div >
+						<img loading="lazy" style = " margin: 0px;" class = "image" src={supabase_url + user.id + "/" + image.name} alt=""/>
+					</div>
+				{/each}
+		</div>
+
+	{/if}
+	
+	
+	<div class="form-widget addButton" >
+		<div style="width: {10}em;">
+			<label class="button primary block" style = "padding: 20px;"for="single">
+				{uploading ? 'Laster opp ...' : 'Last opp bilde'}
+			</label>
+			<input
+				style="visibility: hidden; position:absolute;"
+				type="file"
+				id="single"
+				accept="image/*"
+				bind:files
+				on:change={uploadImage}
+				disabled={uploading}
+			/>
+		</div>
+	</div>
 
 {/if}
 
@@ -242,5 +253,6 @@
 	animation: spin 1s linear infinite;
 	filter: invert(1);
 }
+
 </style>
 
