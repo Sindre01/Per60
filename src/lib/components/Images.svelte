@@ -2,13 +2,13 @@
 	import { onMount } from 'svelte'
 	import type { AuthSession } from '@supabase/supabase-js'
 	import { supabaseClient } from '$lib/supabaseClient'
-	// import { env } from '$env/dynamic/public';
 	import {PUBLIC_SUPABASE_URL} from '$env/static/public';
 	import JSZip from "jszip";
 	import { saveAs } from 'file-saver';
+	import Download from "svelte-material-icons/Download.svelte";
+	import ImagePlus from "svelte-material-icons/ImagePlus.svelte";
 
 	export let session: AuthSession
-	// let loading = false
 	let images: any[] = []
 	$: loadingAllImages = images.length == 0 ? true : false;
 	let noImages = false;
@@ -18,8 +18,6 @@
 	let uploading = false
 	let files: FileList
 
-
-
 	onMount(() => {
 		if (user){
 			getImages()
@@ -28,10 +26,7 @@
 
 	const getImages= async () => {
 		try {
-			// loading = true
-			// loadingAllImages = true
 			const { user } = session
-			// console.log("get images")
 			 const { data, error } = await supabaseClient
 				.storage
 				.from('images')
@@ -62,8 +57,6 @@
 
 
 	const downloadZip = async () => {
-		/* Create a new instance of JSZip and a folder named 'collection' where*/
-		/* we will be adding all of our files*/
 		let zip = new JSZip();
 		let folder : JSZip | null = zip.folder('Per60år');
 		if (folder != null){
@@ -81,14 +74,12 @@
 		zip.generateAsync({type:"blob"})
 				.then(blob => saveAs(blob, "Per60år.zip"))
 				.catch(e => console.log(e));
-
 		}
 	}
 	
 
 	const uploadImage = async () => {
 		try {
-			// console.log("upload image")
 			uploading = true
 
 			if (!files || files.length === 0) {
@@ -96,9 +87,6 @@
 			}
 
 			const file = files[0]
-			// const fileExt = file.name.split('.').pop()
-			// const randomId = `${Math.random()}.${fileExt}`
-			// console.log(randomId)
 			const name = new Date().toISOString()
 
 			console.log(name)
@@ -146,9 +134,9 @@
 
 		<!-- <h1>Bilder</h1> -->
 		<div class="form-widget" >
-			<div style="width: {10}em;" on:click={downloadZip}>
-				<p class="button primary block">Last ned alle bilder</p>
-			</div>
+			<button class="download" on:click={downloadZip}>
+				Last ned alle bilder <div style = "display: flex; margin-left: 10px"><Download color = "black" size = "2em"/></div>
+			</button>
 		</div>
 
 	{#if noImages}
@@ -168,11 +156,12 @@
 	{/if}
 	
 	
-	<div class="form-widget addButton" >
-		<div style="width: {10}em;">
-			<label class="button primary block" style = "padding: 20px;"for="single">
-				{uploading ? 'Laster opp ...' : 'Last opp bilde'}
+	<div class="form-widget addButton " >
+		<div style="">
+			<label class="button primary upload" style = "padding: 20px;"for="single">
+				{uploading ? 'Laster opp ...' : 'Legg til bilde' } <div style = "display: flex; margin-left: 10px"><ImagePlus color ="black" size ="1.5em" /> </div>
 			</label>
+			
 			<input
 				style="visibility: hidden; position:absolute;"
 				type="file"
@@ -187,9 +176,53 @@
 
 {/if}
 
-<div class="button primary block" on:click={signOut}>Logg ut</div>
+<button class="button primary block logout" on:click={signOut}>Logg ut</button>
 </div>
 <style>
+	.icon {
+		padding-left:5px;
+	}
+	.logout {
+		background-color: #f44141;
+		border: 1px solid rgb(244, 39, 39);
+		font-weight:  500;
+	}
+	.download {
+		display: flex;
+		background-color: rgb(172, 211, 255);
+		border: 1px solid rgb(16, 140, 241);
+		color: black;
+		font-weight:  500;
+		margin: 10px;
+		
+		/* position: fixed;
+		top: 0px; */
+		/* right: 10px; */
+		
+	
+	}
+	.download:hover {
+	outline-style:solid;
+	background-color: rgb(172, 211, 255);
+}
+	.logout:hover {
+	/* outline-style:solid; */
+	background-color: #fb6e6e;
+}
+	.upload {
+		color: black;
+		display: flex;
+		align-items: center;
+		background-color: #3ef6b3;
+		justify-content: space-evenly;
+		font-weight:  500;
+		/* background-color: #44aff7;
+		border: 1px solid rgb(16, 140, 241); */
+	}
+	.upload:hover {
+	/* outline-style:solid; */
+	background-color: #97e7a7;
+}
 	@media only screen and (min-width: 1001px) {
 		.image{
 			width: 25vw;
@@ -234,25 +267,9 @@
 		flex-direction: column;
 		gap: 20px;
 	}
-	.form-widget>.button {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	border: none;
-	background-color: #444444;
-	text-transform: none !important;
-	transition: all 0.2s ease;
-}
 
-.form-widget .button:hover {
-	background-color: #2a2a2a;
-}
 
-.form-widget .button>.loader {
-	width: 17px;
-	animation: spin 1s linear infinite;
-	filter: invert(1);
-}
+
 
 </style>
 
