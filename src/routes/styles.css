@@ -20,7 +20,7 @@ body {
 	font-family: var(--custom-font-family);
 	background-color: var(--custom-bg-color);
 	/* background: linear-gradient(180deg, var(--primary-color) 20%, var(--secondary-color) 80%, var(--tertiary-color) 100%); */
-	background-image: url("per/Per60.png");
+	background-image: url("/Per60.png");
 	background-size: contain;
 }
 
