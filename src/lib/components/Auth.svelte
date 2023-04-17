@@ -80,7 +80,7 @@
 		align-items: center;
 		width: 100%;
 		backdrop-filter: blur(6px);
-		background-color: rgb(0, 0, 0);
+		background-color: rgba(0, 0, 0, 0.767);
 		border-radius: 5%;
 		margin-top: 10vh;
 		padding:10px;
