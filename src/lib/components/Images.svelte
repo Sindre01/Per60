@@ -331,7 +331,7 @@
 		/* margin-bottom: 10px; */
 	}
 	.images{
-		margin-bottom: 50px;
+		/* margin-bottom: 50px; */
 		/* border: solid rgb(172, 211, 255); */
 
 	}
