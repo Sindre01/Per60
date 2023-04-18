@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { goto } from '$app/navigation'
 	import { supabaseClient } from '$lib/supabaseClient'
 
 	let loading = false
@@ -17,6 +18,7 @@
 			if (error) throw error
 		
 			console.log(data)
+			goto("/home")
 
 		} catch (error) {
 			console.log(error)

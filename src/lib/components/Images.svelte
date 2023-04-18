@@ -8,6 +8,7 @@
 	import Download from "svelte-material-icons/Download.svelte";
 	import ImagePlus from "svelte-material-icons/ImagePlus.svelte";
 	import Logout from "svelte-material-icons/Logout.svelte";
+	import { goto } from '$app/navigation'
 
 	export let session: AuthSession
 	let images: any[] = []
@@ -113,7 +114,8 @@
 			// loading = true
 			let { error } = await supabaseClient.auth.signOut()
 			if (error) throw error
-		
+			else {goto("/")}
+			
 		} catch (error) {
 			if (error instanceof Error) {
 				alert(error.message)

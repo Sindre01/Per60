@@ -5,14 +5,10 @@
 	import Auth from '../../lib/components/Auth.svelte'
 
 	onMount(() => {
-	
         if ($page.data.session){
             goto("/home")
         } 
 	})
-	$: if ($page.data.session){
-		goto("/home")
-	} 
 
 </script>
 
