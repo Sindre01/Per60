@@ -22,6 +22,7 @@
 	const supabase_url = PUBLIC_SUPABASE_URL + "/storage/v1/object/public/images/";
 	console.log(supabase_url)
 	let uploading = false
+	let downloading = false;
 	let files: FileList
 	let playingLoadingScreen = true
 
@@ -72,30 +73,45 @@
 
 
 	const downloadZip = async () => {
-		let zip = new JSZip();
-		let folder : JSZip | null = zip.folder('Per60år');
-		if (folder != null){
-			images.forEach((image) => {
-				const imageUrl = supabase_url + user.id + "/" + image.name;
+		downloading = true
+		try {
+			let zip = new JSZip();
+			let folder : JSZip | null = zip.folder('Per60år');
+			if (folder != null){
+				images.forEach((image) => {
+					const imageUrl = supabase_url + user.id + "/" + image.name;
 
-				const blobPromise = fetch(imageUrl).then(r => {
-					if (r.status === 200) return r.blob()
-					return Promise.reject(new Error(r.statusText))
+					const blobPromise = fetch(imageUrl).then(r => {
+						if (r.status === 200) return r.blob()
+						return Promise.reject(new Error(r.statusText))
+					})
+					const name = imageUrl.substring(imageUrl.lastIndexOf('/')+1)
+					folder!.file(name, blobPromise)
+					
 				})
-				const name = imageUrl.substring(imageUrl.lastIndexOf('/')+1)
-				folder!.file(name, blobPromise)
-				
-			})
-		zip.generateAsync({type:"blob"})
-				.then(blob => saveAs(blob, "Per60år.zip"))
-				.catch(e => console.log(e));
+			zip.generateAsync({type:"blob"})
+					.then(blob => saveAs(blob, "Per60år.zip"))
+					.catch(e => console.log(e));
+			}
+
+			
+       } catch (error) {
+			if (error instanceof Error) {
+				alert(error.message)
+			}
+		} finally {
+			setTimeout(function() {
+				downloading = false;
+				console.log("downloading timeout")
+			}, 5000);
 		}
 	}
 	
 
 	const uploadImage = async () => {
+		uploading = true
 		try {
-			uploading = true
+			
 
 			if (!files || files.length === 0) {
 				throw new Error('You must select an image to upload.')
@@ -152,9 +168,14 @@
 		<div style="" class = "container" class:hidden = "{playingLoadingScreen}" >
 			<!-- <h1>Bilder</h1> -->
 			<div class="form-widget" >
-				<button class="download" on:click={downloadZip}>
-					Last ned alle bildene <div style = "display: flex; margin-left: 10px"><Download color = "black" size = "2em"/></div>
-				</button>
+				
+					{#if downloading} 
+						<button class="download" >Laster ned <div style = "display: flex; margin-left: 10px"><Circle size="30" color=" #001eff" unit="px" duration="1s" /> </div></button>
+					{:else}
+						<button class="download" on:click={downloadZip}> Last ned alle bildene <div style = "display: flex; margin-left: 10px"><Download color = "black" size = "2em"/> </div> </button>
+					{/if}
+					
+			
 			</div>
 			<div class ="images"> 		
 			
@@ -184,9 +205,9 @@
 				<div style="">
 					<label class="button primary upload" style = "padding: 20px;"for="single">
 						{#if uploading}
-						Laster opp bilde <div style = "display: flex; margin-left: 10px"><Circle size="30" color=" #001eff" unit="px" duration="1s" /> </div>
+							Laster opp bilde <div style = "display: flex; margin-left: 10px"><Circle size="30" color=" #001eff" unit="px" duration="1s" /> </div>
 						{:else}
-						Legg til bilde <div style = "display: flex; margin-left: 10px"><ImagePlus color ="black" size ="1.5em" /> </div>
+							Legg til bilde <div style = "display: flex; margin-left: 10px"><ImagePlus color ="black" size ="1.5em" /> </div>
 						{/if}
 						
 					</label>
@@ -259,9 +280,9 @@
 	
 	}
 	.download:hover {
-	outline-style:solid;
-	background-color: rgb(172, 211, 255);
-}	
+		/* outline-style:solid 4px rgb(4, 135, 243); */
+		background-color: rgb(212, 228, 246);
+	}	
 	.loading {
 		position: absolute;
 		/* top:0; */
