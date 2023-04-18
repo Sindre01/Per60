@@ -131,7 +131,7 @@
 	{#if loadingAllImages && !noImages}
 		<div class = "loadingScreen">
 			<p style ="color: black; font-weight:  500;">Laster inn bilder.. </p>
-			<img class = "image" src = "/PerMisterLua.gif" alt="">
+			<img loading = "eager" class = "image" src = "/PerMisterLua.gif" alt="">
 		</div>
 	{:else}
 
