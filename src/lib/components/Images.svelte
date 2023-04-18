@@ -227,7 +227,7 @@
 		font-weight:  500;
 		color:black;
 		margin: 10px;
-		width: 20%;
+		padding: 10px;
 		/* position: fixed;
 		bottom: 0px;
 		left: 0px; */
@@ -309,9 +309,7 @@
 			height: 90vh;
 			object-fit: cover;
 		}
-		.loadingScreen{
 
-		}
 
 	}
 	.loadingScreen {
