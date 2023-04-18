@@ -7,6 +7,7 @@
 	import { saveAs } from 'file-saver';
 	import Download from "svelte-material-icons/Download.svelte";
 	import ImagePlus from "svelte-material-icons/ImagePlus.svelte";
+	import Logout from "svelte-material-icons/Logout.svelte";
 
 	export let session: AuthSession
 	let images: any[] = []
@@ -127,7 +128,7 @@
 
 	{#if loadingAllImages && !noImages}
 		<div class = "loadingScreen">
-			<p style ="color: black;">Laster inn bilder.. </p>
+			<p style ="color: black; font-weight:  500;">Laster inn bilder.. </p>
 			<img class = "image" src = "/PerMisterLua.gif" alt="">
 		</div>
 	{:else}
@@ -146,9 +147,15 @@
 		</div>
 	{:else}
 		<div class ="images"> 
-				{#each images as image}
+				{#each images as image, i}
 					<div >
-						<img loading="lazy" style = " margin: 0px;" class = "image" src={supabase_url + user.id + "/" + image.name} alt=""/>
+						{#if i > 2}
+						<!-- {console.log("lazy on" + image.name)} -->
+							<img loading="lazy" style = " margin: 0px;" class = "image" src={supabase_url + user.id + "/" + image.name} alt=""/>
+						{:else}
+							<!-- {console.log("eager on" + image.name)} -->
+							<img loading="eager" style = " margin: 0px;" class = "image" src={supabase_url + user.id + "/" + image.name} alt=""/>
+						{/if}
 					</div>
 				{/each}
 		</div>
@@ -176,19 +183,31 @@
 
 {/if}
 
-<button class="button primary block logout" on:click={signOut}>Logg ut</button>
+<button class="logout" on:click={signOut}>Logg ut <div style = "display: flex; margin-left: 10px"><Logout color ="black" size ="1.5em" /> </div></button>
 </div>
 <style>
 	.icon {
 		padding-left:5px;
 	}
 	.logout {
-		background-color: #f44141;
+		display: flex;
+		justify-content: center;
+		align-items:center;
+		width: 100%;
+		background-color: #fb3232;
 		border: 1px solid rgb(244, 39, 39);
 		font-weight:  500;
+		color:black;
+		margin: 10px;
+	}
+	.logout:hover {	
+		/* outline-style:solid; */
+		background-color: #f34c4c;
 	}
 	.download {
 		display: flex;
+		align-items: center;
+		justify-content: center;
 		background-color: rgb(172, 211, 255);
 		border: 1px solid rgb(16, 140, 241);
 		color: black;
@@ -205,16 +224,12 @@
 	outline-style:solid;
 	background-color: rgb(172, 211, 255);
 }
-	.logout:hover {
-	/* outline-style:solid; */
-	background-color: #fb6e6e;
-}
+
 	.upload {
 		color: black;
 		display: flex;
 		align-items: center;
 		background-color: #3ef6b3;
-		justify-content: space-evenly;
 		font-weight:  500;
 		/* background-color: #44aff7;
 		border: 1px solid rgb(16, 140, 241); */
@@ -254,6 +269,8 @@
 	}
 	.images{
 		margin-bottom: 50px;
+		/* border: solid rgb(172, 211, 255); */
+
 	}
 
 	.addButton{

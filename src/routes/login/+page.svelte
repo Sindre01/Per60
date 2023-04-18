@@ -1,7 +1,16 @@
 <script>
 	import { goto } from '$app/navigation'
 	import { page } from '$app/stores'
+	import { onMount } from 'svelte'
 	import Auth from '../../lib/components/Auth.svelte'
+
+	onMount(() => {
+	
+        if ($page.data.session){
+            goto("/home")
+        } 
+	})
+
 </script>
 
 <svelte:head>
@@ -11,6 +20,6 @@
 
 {#if !$page.data.session}
 	<Auth />
-{:else}
-	{goto("/home")}
 {/if}
+
+
