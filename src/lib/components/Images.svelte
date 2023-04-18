@@ -138,65 +138,67 @@
 	}
 
 </script>
-
-<div class:disableScroll = "{playingLoadingScreen}" >
-	{#if playingLoadingScreen}
-		<div class = "loadingScreen">
-			<div class = "loading" >Laster inn bilder <div style = "display: flex; margin-left: 10px"><SyncLoader size="40" color=" #001eff" unit="px" duration="1s" /></div></div>
-			<img loading = "eager" class = "image" style = "width: 100%" src = "/PerMisterLua.gif" alt="">
-		</div>
-	{/if}
-	<div style="margin-bottom: 100px" class:hidden = "{playingLoadingScreen}" >
-		<!-- <h1>Bilder</h1> -->
-		<div class="form-widget" >
-			<button class="download" on:click={downloadZip}>
-				Last ned alle bilder <div style = "display: flex; margin-left: 10px"><Download color = "black" size = "2em"/></div>
-			</button>
-		</div>
-		<div class ="images"> 		
-		
-			{#each images as image, i}
-				<div >
-					{#if i < 2}
-					<!-- {console.log("lazy on" + image.name)} -->
-						<img loading="eager" style = " margin: 0px;" class = "image" src={supabase_url + user.id + "/" + image.name} alt=""/>
-					{:else}
-						<!-- {console.log("eager on" + image.name)} -->
-						<img loading="lazy" style = " margin: 0px;" class = "image" src={supabase_url + user.id + "/" + image.name} alt=""/>
-					{/if}
-				</div>
-			{:else}
-	
-				<div class = "loadingScreen">
-					<!-- <p style ="color: black;">Legg til bilder  </p> -->
-					<img loading = "eager" class = "image" src = "/PerMisterLua.gif" alt="">
-				</div>
-			{/each}
-		</div>
-	
-
-	
-	
-		<div class="form-widget addButton " >
-			<div style="">
-				<label class="button primary upload" style = "padding: 20px;"for="single">
-					{uploading ? 'Laster opp ...' : 'Legg til bilde' } <div style = "display: flex; margin-left: 10px"><ImagePlus color ="black" size ="1.5em" /> </div>
-				</label>
-				
-				<input
-					style="visibility: hidden; position:absolute;"
-					type="file"
-					id="single"
-					accept="image/*"
-					bind:files
-					on:change={uploadImage}
-					disabled={uploading}
-				/>
+<div class = "main">
+	<div class:disableScroll = "{playingLoadingScreen}" >
+		{#if playingLoadingScreen}
+			<div class = "loadingScreen container">
+				<div class = "loading" >Laster inn bilder <div style = "display: flex; margin-left: 10px"><SyncLoader size="40" color=" #001eff" unit="px" duration="1s" /></div></div>
+				<!-- <img loading = "eager" class = "image" style = "width: 100%" src = "/PerMisterLua.gif" alt=""> -->
 			</div>
-		</div>
-		<button class="logout" on:click={signOut}>Logg ut <div style = "display: flex; margin-left: 10px"><Logout color ="black" size ="1.5em" /> </div></button>
-	</div>
+		{/if}
+		<div style="margin-bottom: 100px" class = "container" class:hidden = "{playingLoadingScreen}" >
+			<!-- <h1>Bilder</h1> -->
+			<div class="form-widget" >
+				<button class="download" on:click={downloadZip}>
+					Last ned alle bilder <div style = "display: flex; margin-left: 10px"><Download color = "black" size = "2em"/></div>
+				</button>
+			</div>
+			<div class ="images"> 		
+			
+				{#each images as image, i}
+					<div >
+						{#if i < 2}
+						<!-- {console.log("lazy on" + image.name)} -->
+							<img loading="eager" style = " margin: 0px;" class = "image" src={supabase_url + user.id + "/" + image.name} alt=""/>
+						{:else}
+							<!-- {console.log("eager on" + image.name)} -->
+							<img loading="lazy" style = " margin: 0px;" class = "image" src={supabase_url + user.id + "/" + image.name} alt=""/>
+						{/if}
+					</div>
+				{:else}
+		
+					<div class = "loadingScreen">
+						<!-- <p style ="color: black;">Legg til bilder  </p> -->
+						<img loading = "eager" class = "image" src = "/PerMisterLua.gif" alt="">
+					</div>
+				{/each}
+			</div>
+		
 	
+		
+		
+			<div class="form-widget addButton " >
+				<div style="">
+					<label class="button primary upload" style = "padding: 20px;"for="single">
+						{uploading ? 'Laster opp ...' : 'Legg til bilde' } <div style = "display: flex; margin-left: 10px"><ImagePlus color ="black" size ="1.5em" /> </div>
+					</label>
+					
+					<input
+						style="visibility: hidden; position:absolute;"
+						type="file"
+						id="single"
+						accept="image/*"
+						bind:files
+						on:change={uploadImage}
+						disabled={uploading}
+					/>
+				</div>
+			</div>
+			<button class="logout" on:click={signOut}>Logg ut <div style = "display: flex; margin-left: 10px"><Logout color ="black" size ="1.5em" /> </div></button>
+		</div>
+		
+	</div>
+
 </div>
 
 <style>
@@ -210,7 +212,8 @@
 		
 	}
 	.main {
-		
+		background-color: rgba(0, 0, 0, 0.348);
+		width: 100vw;
 	}
 	.logout {
 		display: flex;
@@ -285,6 +288,7 @@
 			width: 50vw;
 			object-fit: cover;
 		}
+		
 	}
 	@media only screen and (max-width: 600px) {
 		.image{
@@ -292,9 +296,17 @@
 			object-fit: cover;
 			
 		}
-		.loadingScreen {
-			width: 100vw;
+
+	}
+	@media only screen and (orientation:landscape) {
+		.image{
+			height: 90vh;
+			object-fit: cover;
 		}
+		.loadingScreen{
+
+		}
+
 	}
 	.loadingScreen {
 		position:relative;
@@ -306,6 +318,9 @@
 		color: black;
 		border-radius: 20px;
 		z-index: 1;
+		height: 100vh;
+		background: url("/PerMisterLua.gif") no-repeat center;
+		background-size: cover;
 		/* width: 100%; */
 		/* background-color: white; */
 		/* margin-bottom: 10px; */

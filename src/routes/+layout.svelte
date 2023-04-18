@@ -27,7 +27,6 @@
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
-	width: 90%;
 	margin-left: auto;
 	margin-right: auto;
 

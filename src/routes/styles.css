@@ -38,6 +38,16 @@ body,
 	overflow-x: hidden;
 }
 
+.container {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	margin-left: auto;
+	margin-right: auto;
+
+}
+
 /* Grid */
 
 
