@@ -136,11 +136,10 @@
 			// loading = false
 		}
 	}
-// $: innerHeight = 0
-// let vh = innerHeight * 0.01;
+
 
 </script>
-<!-- <svelte:window bind:innerHeight/> -->
+
 <div class = "main">
 	<div class:disableScroll = "{playingLoadingScreen}" >
 		{#if playingLoadingScreen}
@@ -149,7 +148,7 @@
 				<!-- <img loading = "eager" class = "image" style = "width: 100%" src = "/PerMisterLua.gif" alt=""> -->
 			</div>
 		{/if}
-		<div style="margin-bottom: 100px" class = "container" class:hidden = "{playingLoadingScreen}" >
+		<div style="" class = "container" class:hidden = "{playingLoadingScreen}" >
 			<!-- <h1>Bilder</h1> -->
 			<div class="form-widget" >
 				<button class="download" on:click={downloadZip}>
@@ -197,8 +196,9 @@
 					/>
 				</div>
 			</div>
-			<button class="logout" on:click={signOut}>Logg ut <div style = "display: flex; margin-left: 10px"><Logout color ="black" size ="1.5em" /> </div></button>
 		</div>
+
+		<button class="logout" on:click={signOut}>Logg ut <div style = "display: flex; margin-left: 10px"><Logout color ="black" size ="1.5em" /> </div></button>
 		
 	</div>
 
@@ -222,12 +222,15 @@
 		display: flex;
 		justify-content: center;
 		align-items:center;
-		width: 100%;
 		background-color: #fb3232;
 		border: 1px solid rgb(244, 39, 39);
 		font-weight:  500;
 		color:black;
 		margin: 10px;
+		width: 20%;
+		/* position: fixed;
+		bottom: 0px;
+		left: 0px; */
 	}
 	.logout:hover {	
 		/* outline-style:solid; */
