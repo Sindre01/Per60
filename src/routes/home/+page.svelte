@@ -10,9 +10,13 @@
             goto("/login")
         } 
 	})
+	$: if (!$page.data.session){
+        goto("/login")
+    } 
 </script>
 
 {#if $page.data.session}
 	<Images session={$page.data.session} />
+
 {/if}
 

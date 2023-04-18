@@ -10,6 +10,9 @@
             goto("/home")
         } 
 	})
+	$: if ($page.data.session){
+		goto("/home")
+	} 
 
 </script>
 
@@ -21,5 +24,6 @@
 {#if !$page.data.session}
 	<Auth />
 {/if}
+
 
 
