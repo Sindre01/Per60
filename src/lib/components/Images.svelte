@@ -136,8 +136,11 @@
 			// loading = false
 		}
 	}
+// $: innerHeight = 0
+// let vh = innerHeight * 0.01;
 
 </script>
+<!-- <svelte:window bind:innerHeight/> -->
 <div class = "main">
 	<div class:disableScroll = "{playingLoadingScreen}" >
 		{#if playingLoadingScreen}
@@ -318,7 +321,8 @@
 		color: black;
 		border-radius: 20px;
 		z-index: 1;
-		height: 100vh;
+		height: 99vh; /* Fallback for browsers that do not support Custom Properties */
+  		height: calc(var(--vh, 1vh) * 100);
 		background: url("/PerMisterLua.gif") no-repeat center;
 		background-size: cover;
 		/* width: 100%; */
