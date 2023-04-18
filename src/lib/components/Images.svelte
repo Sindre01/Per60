@@ -10,6 +10,7 @@
 	import Logout from "svelte-material-icons/Logout.svelte";
 	import { goto } from '$app/navigation'
 	import { SyncLoader} from 'svelte-loading-spinners';
+	import { Circle} from 'svelte-loading-spinners';
 
 	export let session: AuthSession
 	let images: any[] = []
@@ -152,7 +153,7 @@
 			<!-- <h1>Bilder</h1> -->
 			<div class="form-widget" >
 				<button class="download" on:click={downloadZip}>
-					Last ned alle bilder <div style = "display: flex; margin-left: 10px"><Download color = "black" size = "2em"/></div>
+					Last ned alle bildene <div style = "display: flex; margin-left: 10px"><Download color = "black" size = "2em"/></div>
 				</button>
 			</div>
 			<div class ="images"> 		
@@ -182,7 +183,12 @@
 			<div class="form-widget addButton " >
 				<div style="">
 					<label class="button primary upload" style = "padding: 20px;"for="single">
-						{uploading ? 'Laster opp ...' : 'Legg til bilde' } <div style = "display: flex; margin-left: 10px"><ImagePlus color ="black" size ="1.5em" /> </div>
+						{#if uploading}
+						Laster opp bilde <div style = "display: flex; margin-left: 10px"><Circle size="30" color=" #001eff" unit="px" duration="1s" /> </div>
+						{:else}
+						Legg til bilde <div style = "display: flex; margin-left: 10px"><ImagePlus color ="black" size ="1.5em" /> </div>
+						{/if}
+						
 					</label>
 					
 					<input
@@ -258,7 +264,7 @@
 }	
 	.loading {
 		position: absolute;
-		top:0;
+		/* top:0; */
 		display: flex;
 		align-items: center;
 		width: 100%;
