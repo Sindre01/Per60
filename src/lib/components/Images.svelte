@@ -9,16 +9,20 @@
 	import ImagePlus from "svelte-material-icons/ImagePlus.svelte";
 	import Logout from "svelte-material-icons/Logout.svelte";
 	import { goto } from '$app/navigation'
+	import { SyncLoader} from 'svelte-loading-spinners';
 
 	export let session: AuthSession
 	let images: any[] = []
-	$: loadingAllImages = images.length == 0 ? true : false;
+	// let loadingAllImages = true;
+	// $: loadingAllImages = images.length == 0 ? true : false;
+
 	let noImages = false;
 	const { user } = session
 	const supabase_url = PUBLIC_SUPABASE_URL + "/storage/v1/object/public/images/";
 	console.log(supabase_url)
 	let uploading = false
 	let files: FileList
+	let playingLoadingScreen = true
 
 	onMount(() => {
 		if (user){
@@ -28,6 +32,8 @@
 
 	const getImages= async () => {
 		try {
+		
+			playingLoadingScreen = true
 			const { user } = session
 			 const { data, error } = await supabaseClient
 				.storage
@@ -37,13 +43,19 @@
 					offset: 0,
 					sortBy: { column: "created_at", order: "desc"}
 				});
-				console.log(data)
+				// console.log(data)
 			if (error) throw error
 
 			if (data.length > 0 && data[0].name != ".emptyFolderPlaceholder") {
-				console.log("Fetched all images")
+				console.log("Fetched " + data.length + " images")
 				images = data;
-				noImages = false
+				noImages = false;
+
+				setTimeout(function() {
+					console.log("loading timeout")
+					playingLoadingScreen = false
+				}, 3000);
+				
 			} else {
 				console.log("No images")
 				// alert("Ingen bilder!")
@@ -126,32 +138,26 @@
 	}
 
 </script>
-<div style="margin-bottom: 100px">
 
-	{#if loadingAllImages && !noImages}
+
+	{#if playingLoadingScreen}
 		<div class = "loadingScreen">
-			<p style ="color: black; font-weight:  500;">Laster inn bilder.. </p>
-			<img loading = "eager" class = "image" src = "/PerMisterLua.gif" alt="">
+			<div class = "loading" >Laster inn bilder <div style = "display: flex; margin-left: 10px"><SyncLoader size="40" color=" #001eff" unit="px" duration="1s" /></div></div>
+			<img loading = "eager"  style = "width: 100%" src = "/PerMisterLua.gif" alt="">
 		</div>
 	{:else}
-
-		<!-- <h1>Bilder</h1> -->
-		<div class="form-widget" >
-			<button class="download" on:click={downloadZip}>
-				Last ned alle bilder <div style = "display: flex; margin-left: 10px"><Download color = "black" size = "2em"/></div>
-			</button>
-		</div>
-
-	{#if noImages}
-		<div class = "loadingScreen">
-			<!-- <p style ="color: black;">Legg til bilder  </p> -->
-			<img loading = "eager" class = "image" src = "/PerMisterLua.gif" alt="">
-		</div>
-	{:else}
-		<div class ="images"> 
+		<div style="margin-bottom: 100px" >
+			<!-- <h1>Bilder</h1> -->
+			<div class="form-widget" >
+				<button class="download" on:click={downloadZip}>
+					Last ned alle bilder <div style = "display: flex; margin-left: 10px"><Download color = "black" size = "2em"/></div>
+				</button>
+			</div>
+			<div class ="images"> 		
+			
 				{#each images as image, i}
 					<div >
-						{#if i == 0}
+						{#if i < 2}
 						<!-- {console.log("lazy on" + image.name)} -->
 							<img loading="eager" style = " margin: 0px;" class = "image" src={supabase_url + user.id + "/" + image.name} alt=""/>
 						{:else}
@@ -159,37 +165,43 @@
 							<img loading="lazy" style = " margin: 0px;" class = "image" src={supabase_url + user.id + "/" + image.name} alt=""/>
 						{/if}
 					</div>
+				{:else}
+		
+					<div class = "loadingScreen">
+						<!-- <p style ="color: black;">Legg til bilder  </p> -->
+						<img loading = "eager" class = "image" src = "/PerMisterLua.gif" alt="">
+					</div>
 				{/each}
-		</div>
+			</div>
+		
 
+		
+		
+			<div class="form-widget addButton " >
+				<div style="">
+					<label class="button primary upload" style = "padding: 20px;"for="single">
+						{uploading ? 'Laster opp ...' : 'Legg til bilde' } <div style = "display: flex; margin-left: 10px"><ImagePlus color ="black" size ="1.5em" /> </div>
+					</label>
+					
+					<input
+						style="visibility: hidden; position:absolute;"
+						type="file"
+						id="single"
+						accept="image/*"
+						bind:files
+						on:change={uploadImage}
+						disabled={uploading}
+					/>
+				</div>
+			</div>
+			<button class="logout" on:click={signOut}>Logg ut <div style = "display: flex; margin-left: 10px"><Logout color ="black" size ="1.5em" /> </div></button>
+		</div>
 	{/if}
-	
-	
-	<div class="form-widget addButton " >
-		<div style="">
-			<label class="button primary upload" style = "padding: 20px;"for="single">
-				{uploading ? 'Laster opp ...' : 'Legg til bilde' } <div style = "display: flex; margin-left: 10px"><ImagePlus color ="black" size ="1.5em" /> </div>
-			</label>
-			
-			<input
-				style="visibility: hidden; position:absolute;"
-				type="file"
-				id="single"
-				accept="image/*"
-				bind:files
-				on:change={uploadImage}
-				disabled={uploading}
-			/>
-		</div>
-	</div>
 
-{/if}
 
-<button class="logout" on:click={signOut}>Logg ut <div style = "display: flex; margin-left: 10px"><Logout color ="black" size ="1.5em" /> </div></button>
-</div>
 <style>
-	.icon {
-		padding-left:5px;
+	.main {
+		background-color: white;
 	}
 	.logout {
 		display: flex;
@@ -225,8 +237,21 @@
 	.download:hover {
 	outline-style:solid;
 	background-color: rgb(172, 211, 255);
-}
-
+}	
+	.loading {
+		position: absolute;
+		top:0;
+		display: flex;
+		align-items: center;
+		width: 100%;
+		
+		justify-content: center;
+		background-color: rgba(172, 211, 255, 0.755);
+		color: black;
+		font-weight:  500;
+		/* margin: 10px; */
+		/* border-radius: 10px; */
+	}
 	.upload {
 		color: black;
 		display: flex;
@@ -258,16 +283,22 @@
 			object-fit: cover;
 			
 		}
+		.loadingScreen {
+			width: 100vw;
+		}
 	}
 	.loadingScreen {
+		position:relative;
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
 		align-items: center;
-		background: #becef6;
+		/* background: #becef6; */
 		color: black;
 		border-radius: 20px;
-		margin-bottom: 10px;
+		/* width: 100%; */
+		/* background-color: white; */
+		/* margin-bottom: 10px; */
 	}
 	.images{
 		margin-bottom: 50px;
