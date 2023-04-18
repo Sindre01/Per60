@@ -143,18 +143,18 @@
 	{#if noImages}
 		<div class = "loadingScreen">
 			<!-- <p style ="color: black;">Legg til bilder  </p> -->
-			<img class = "image" src = "/PerMisterLua.gif" alt="">
+			<img loading = "eager" class = "image" src = "/PerMisterLua.gif" alt="">
 		</div>
 	{:else}
 		<div class ="images"> 
 				{#each images as image, i}
 					<div >
-						{#if i > 2}
+						{#if i == 0}
 						<!-- {console.log("lazy on" + image.name)} -->
-							<img loading="lazy" style = " margin: 0px;" class = "image" src={supabase_url + user.id + "/" + image.name} alt=""/>
+							<img loading="eager" style = " margin: 0px;" class = "image" src={supabase_url + user.id + "/" + image.name} alt=""/>
 						{:else}
 							<!-- {console.log("eager on" + image.name)} -->
-							<img loading="eager" style = " margin: 0px;" class = "image" src={supabase_url + user.id + "/" + image.name} alt=""/>
+							<img loading="lazy" style = " margin: 0px;" class = "image" src={supabase_url + user.id + "/" + image.name} alt=""/>
 						{/if}
 					</div>
 				{/each}
