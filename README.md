@@ -1,2 +1,2 @@
-## Login og bildedelingstjeneste med supabase
+## Bildedelingstjeneste med supabase i Sveltekit
 
