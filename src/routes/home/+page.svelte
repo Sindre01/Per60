@@ -12,7 +12,9 @@
 	})
 
 </script>
-
+<svelte:head>
+	<link rel="preload" as="image" href="/PerMisterLua.gif"/>
+</svelte:head>
 {#if $page.data.session}
 	<Images session={$page.data.session} />
 {/if}

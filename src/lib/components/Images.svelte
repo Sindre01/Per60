@@ -193,7 +193,7 @@
 		
 					<div class = "loadingScreen">
 						<!-- <p style ="color: black;">Legg til bilder  </p> -->
-						<img loading = "eager" class = "image" src = "/PerMisterLuaOptiSlow.gif" alt="">
+						<img loading = "eager" class = "image" src = "/PerMisterLua.gif" alt="">
 					</div>
 				{/each}
 			</div>
@@ -351,7 +351,7 @@
 		z-index: 1;
 		height: 99vh; /* Fallback for browsers that do not support Custom Properties */
   		height: calc(var(--vh, 1vh) * 100);
-		background: url("/PerMisterLuaOptiSlow.gif") no-repeat center;
+		background: url("/PerMisterLua.gif") no-repeat center;
 		background-size: cover;
 		/* width: 100%; */
 		/* background-color: white; */
