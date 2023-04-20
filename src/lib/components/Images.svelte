@@ -117,14 +117,17 @@
 				throw new Error('You must select an image to upload.')
 			}
 
-			const file = files[0]
-			const name = new Date().toISOString()
-
-			console.log(name)
-			let { data, error } = await supabaseClient.storage.from('images').upload(user?.id + "/" + name, file)
-			// console.log(data)
-			if (error) {
-				throw error
+			console.log(files);
+			for (let i = 0; i < files.length; i++) {
+				const file = files[i]
+				const name = new Date().toISOString()
+	
+				console.log(name)
+				let { data, error } = await supabaseClient.storage.from('images').upload(user?.id + "/" + name, file)
+				// console.log(data)
+				if (error) {
+					throw error
+				}
 			}
 			console.log("uploaded image")
 			getImages()
@@ -205,7 +208,7 @@
 		
 			<div class="form-widget addButton " >
 				<div style="">
-					<label class="button primary upload" style = "padding: 20px;"for="single">
+					<label class="button primary upload" style = "padding: 20px;"for="many">
 						{#if uploading}
 							Laster opp bilde <div style = "display: flex; margin-left: 10px"><Circle size="30" color=" #001eff" unit="px" duration="1s" /> </div>
 						{:else}
@@ -217,7 +220,8 @@
 					<input
 						style="visibility: hidden; position:absolute;"
 						type="file"
-						id="single"
+						id="many"
+						multiple
 						accept="image/*"
 						bind:files
 						on:change={uploadImage}
