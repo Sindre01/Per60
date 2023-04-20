@@ -111,10 +111,11 @@
 	const uploadImage = async () => {
 		uploading = true
 		try {
-			
 
 			if (!files || files.length === 0) {
-				throw new Error('You must select an image to upload.')
+				throw new Error('Du må velge et bilde å laste opp.')
+			} else if (files.length > 5) {
+				throw new Error('Kan ikke laste opp flere enn 20 bilder.')
 			}
 
 			console.log(files);
