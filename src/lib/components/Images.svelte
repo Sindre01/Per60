@@ -162,7 +162,9 @@
 		{#if playingLoadingScreen}
 			<div class = "loadingScreen container">
 				<div class = "loading" >Laster inn bilder <div style = "display: flex; margin-left: 10px"><SyncLoader size="40" color=" #001eff" unit="px" duration="1s" /></div></div>
-				<!-- <img loading = "eager" class = "image" style = "width: 100%" src = "/PerMisterLua.gif" alt=""> -->
+				<video class = "loadingVideo" autoplay muted loop>
+					<source src="PerMisterLua.mp4" type ="video/mp4">>
+				</video>
 			</div>
 		{/if}
 		<div style="" class = "container" class:hidden = "{playingLoadingScreen}" >
@@ -283,6 +285,12 @@
 		/* outline-style:solid 4px rgb(4, 135, 243); */
 		background-color: rgb(212, 228, 246);
 	}	
+	.loadingVideo {
+		height: 99vh; /* Fallback for browsers that do not support Custom Properties */
+  		height: calc(var(--vh, 1vh) * 100);
+		width: 100vw;
+		object-fit: cover;
+	}
 	.loading {
 		position: absolute;
 		top:10%;
@@ -296,6 +304,24 @@
 		font-weight:  500;
 		/* margin: 10px; */
 		/* border-radius: 10px; */
+	}
+		.loadingScreen {
+		position:relative;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		/* background: #becef6; */
+		color: black;
+		border-radius: 20px;
+		z-index: 1;
+		height: 99vh; /* Fallback for browsers that do not support Custom Properties */
+  		height: calc(var(--vh, 1vh) * 100);
+		/* background: url("/PerMisterLua.gif") no-repeat center;
+		background-size: cover; */
+		/* width: 100%; */
+		/* background-color: white; */
+		/* margin-bottom: 10px; */
 	}
 	.upload {
 		color: black;
@@ -314,6 +340,9 @@
 		.image{
 			width: 25vw;
 			object-fit: cover;
+		}
+		.loadingVideo {
+			width: 100%;
 		}
 	}
 	@media only screen and (min-width: 601px) and (max-width: 1000px){
@@ -339,24 +368,7 @@
 
 
 	}
-	.loadingScreen {
-		position:relative;
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		align-items: center;
-		/* background: #becef6; */
-		color: black;
-		border-radius: 20px;
-		z-index: 1;
-		height: 99vh; /* Fallback for browsers that do not support Custom Properties */
-  		height: calc(var(--vh, 1vh) * 100);
-		background: url("/PerMisterLua.gif") no-repeat center;
-		background-size: cover;
-		/* width: 100%; */
-		/* background-color: white; */
-		/* margin-bottom: 10px; */
-	}
+
 	.images{
 		/* margin-bottom: 50px; */
 		/* border: solid rgb(172, 211, 255); */
