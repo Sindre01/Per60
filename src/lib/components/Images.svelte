@@ -168,7 +168,7 @@
 		{#if playingLoadingScreen}
 			<div class = "loadingScreen container"  class:hidden = "{!playingLoadingScreen}">
 				<div class = "loading" >Laster inn bilder <div style = "display: flex; margin-left: 10px"><SyncLoader size="40" color=" #001eff" unit="px" duration="1s" /></div></div>
-				<video class = "loadingVideo" autoplay={true} loop={true} muted defaultMuted playsinline preload="auto"on:loadeddata={() => alert("video can play")}>
+				<video class = "loadingVideo" autoplay={true} loop={true} muted defaultMuted playsinline preload="auto">
 					<source src="PerMisterLua.mp4" type ="video/mp4">>
 				</video>
 			</div>
