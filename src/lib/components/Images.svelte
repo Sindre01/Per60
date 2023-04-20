@@ -180,8 +180,9 @@ let fillSlider=false;
 				autoplay: true,
 				arrows  : false,
 				perPage : 1,
+				// start: 0,
 				trimSpace : true,
-				// speed: 1000
+				interval: 10000 //10sek
 				} 
 				} hasTrack={ false } 
 				aria-label="My Favorite Images">
