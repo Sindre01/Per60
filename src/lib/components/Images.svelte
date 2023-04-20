@@ -114,8 +114,8 @@
 
 			if (!files || files.length === 0) {
 				throw new Error('Du må velge et bilde å laste opp.')
-			} else if (files.length > 5) {
-				throw new Error('Kan ikke laste opp flere enn 20 bilder.')
+			} else if (files.length > 10) {
+				throw new Error('Kan ikke laste opp flere enn 10 bilder om gangen.')
 			}
 
 			console.log(files);
