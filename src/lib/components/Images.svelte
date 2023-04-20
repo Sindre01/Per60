@@ -6,14 +6,19 @@
 	import JSZip from "jszip";
 	import { saveAs } from 'file-saver';
 	import Download from "svelte-material-icons/Download.svelte";
+	import FitToScreen from "svelte-material-icons/FitToScreen.svelte";
+	import PresentationPlay from "svelte-material-icons/PresentationPlay.svelte";
 	import ImagePlus from "svelte-material-icons/ImagePlus.svelte";
 	import Logout from "svelte-material-icons/Logout.svelte";
 	import { goto } from '$app/navigation'
 	import { SyncLoader} from 'svelte-loading-spinners';
 	import { Circle} from 'svelte-loading-spinners';
+	import { Splide, SplideSlide, SplideTrack } from '@splidejs/svelte-splide';
+	import '@splidejs/svelte-splide/css';
 
 	export let session: AuthSession
 	let images: any[] = []
+	let showSlider = false
 	// let loadingAllImages = true;
 	// $: loadingAllImages = images.length == 0 ? true : false;
 
@@ -158,90 +163,164 @@
 		}
 	}
 
-
+let fillSlider=false;
 </script>
 <svelte:head>
 	<link rel="preload" as="video" href="/PerMisterLua.mp4"/>
 </svelte:head>
 
 <div class = "main">
-	<div class:disableScroll = "{playingLoadingScreen}" >
-		{#if playingLoadingScreen}
-			<div class = "loadingScreen container"  class:hidden = "{!playingLoadingScreen}">
-				<div class = "loading" >Laster inn bilder <div style = "display: flex; margin-left: 10px"><SyncLoader size="40" color=" #001eff" unit="px" duration="1s" /></div></div>
-				<video class = "loadingVideo" autoplay={true} loop={true} muted defaultMuted playsinline preload="auto">
-					<source src="PerMisterLua.mp4" type ="video/mp4">>
-				</video>
-			</div>
-		{/if}
-		<div style="" class = "container" class:hidden = "{playingLoadingScreen}" >
-			<!-- <h1>Bilder</h1> -->
-			<div class="form-widget" >
-				
-					{#if downloading} 
-						<button class="download" >Laster ned <div style = "display: flex; margin-left: 10px"><Circle size="30" color=" #001eff" unit="px" duration="1s" /> </div></button>
-					{:else}
-						<button class="download" on:click={downloadZip}> Last ned alle bildene <div style = "display: flex; margin-left: 10px"><Download color = "black" size = "2em"/> </div> </button>
-					{/if}
-					
-			
-			</div>
-			<div class ="images"> 		
-			
-				{#each images as image, i}
-					<div >
-						{#if i < 2}
-						<!-- {console.log("lazy on" + image.name)} -->
-							<img loading="eager" style = " margin: 0px;" class = "image" src={supabase_url + user.id + "/" + image.name} alt=""/>
-						{:else}
-							<!-- {console.log("eager on" + image.name)} -->
-							<img loading="lazy" style = " margin: 0px;" class = "image" src={supabase_url + user.id + "/" + image.name} alt=""/>
-						{/if}
-					</div>
-				{:else}
-		
-					<div class = "loadingScreen">
-						<!-- <p style ="color: black;">Legg til bilder  </p> -->
-						<img loading = "eager" class = "image" src = "/PerMisterLua.gif" alt="">
-					</div>
-				{/each}
-			</div>
-		
-	
-		
-		
-			<div class="form-widget addButton " >
-				<div style="">
-					<label class="button primary upload" style = "padding: 20px;"for="many">
-						{#if uploading}
-							Laster opp bilde <div style = "display: flex; margin-left: 10px"><Circle size="30" color=" #001eff" unit="px" duration="1s" /> </div>
-						{:else}
-							Legg til bilde <div style = "display: flex; margin-left: 10px"><ImagePlus color ="black" size ="1.5em" /> </div>
-						{/if}
-						
-					</label>
-					
-					<input
-						style="visibility: hidden; position:absolute;"
-						type="file"
-						id="many"
-						multiple
-						accept="image/*"
-						bind:files
-						on:change={uploadImage}
-						disabled={uploading}
-					/>
-				</div>
-			</div>
-		</div>
-
-		<button class="logout" on:click={signOut}>Logg ut <div style = "display: flex; margin-left: 10px"><Logout color ="black" size ="1.5em" /> </div></button>
-		
+	{#if showSlider}
+	<div class = "slider-background">
+		<button class ="fillSliderButton" on:click={() => fillSlider = !fillSlider}>
+			<FitToScreen size="30"  color="red" />
+		</button>
+		<Splide options={ { 
+				rewind  : true,
+				autoplay: true,
+				arrows  : false,
+				perPage : 1,
+				trimSpace : true,
+				// speed: 1000
+				} 
+				} hasTrack={ false } 
+				aria-label="My Favorite Images">
+				  <SplideTrack >
+					  {#each images as image, i}
+					  <SplideSlide >
+							<div class="center"> 
+							  	<img  class:slider = "{!fillSlider}" class:fillSlider = "{fillSlider}" src={supabase_url + user.id + "/" + image.name} alt=""/>
+							</div>
+						  </SplideSlide>
+					  {/each}
+				  </SplideTrack>
+			<!-- <Slider images = {images.map((image)=> supabase_url + user.id + "/" + image.name)}/> -->
+		</Splide>
 	</div>
+	{:else}
+		<div class:disableScroll = "{playingLoadingScreen}" >
+				{#if playingLoadingScreen}
+					<div class = "loadingScreen container"  class:hidden = "{!playingLoadingScreen}">
+						<div class = "loading" >Laster inn bilder <div style = "display: flex; margin-left: 10px"><SyncLoader size="40" color=" #001eff" unit="px" duration="1s" /></div></div>
+						<video class = "loadingVideo" autoplay={true} loop={true} muted defaultMuted playsinline preload="auto">
+							<source src="PerMisterLua.mp4" type ="video/mp4">>
+						</video>
+					</div>
+				{/if}
+				<div style="" class = "container" class:hidden = "{playingLoadingScreen}" >
+					<!-- <h1>Bilder</h1> -->
+					<div class="form-widget" >
+						<button class="download sliderButton" on:click={() => showSlider = true}>Presentasjon <div style = "display: flex; margin-left: 10px"><PresentationPlay size="30"  color="black" /> </div></button>
+					</div>
+					<div class="form-widget" >
+						
+							{#if downloading} 
+								<button class="download" >Laster ned <div style = "display: flex; margin-left: 10px"><Circle size="30" color=" #001eff" unit="px" duration="1s" /> </div></button>
+							{:else}
+								<button class="download" on:click={downloadZip}> Last ned alle bildene <div style = "display: flex; margin-left: 10px"><Download color = "black" size = "2em"/> </div> </button>
+							{/if}
+							
+					
+					</div>
+					<div class ="images"> 		
+					
+						{#each images as image, i}
+							<div >
+								{#if i < 2}
+								<!-- {console.log("lazy on" + image.name)} -->
+									<img loading="eager" style = " margin: 0px;" class = "image" src={supabase_url + user.id + "/" + image.name} alt=""/>
+								{:else}
+									<!-- {console.log("eager on" + image.name)} -->
+									<img loading="lazy" style = " margin: 0px;" class = "image" src={supabase_url + user.id + "/" + image.name} alt=""/>
+								{/if}
+							</div>
+						{:else}
+				
+							<div class = "loadingScreen">
+								<!-- <p style ="color: black;">Legg til bilder  </p> -->
+								<img loading = "eager" class = "image" src = "/PerMisterLua.gif" alt="">
+							</div>
+						{/each}
+					</div>
+				
+			
+				
+				
+					<div class="form-widget addButton " >
+						<div style="">
+							<label class="button primary upload" style = "padding: 20px;"for="many">
+								{#if uploading}
+									Laster opp bilde <div style = "display: flex; margin-left: 10px"><Circle size="30" color=" #001eff" unit="px" duration="1s" /> </div>
+								{:else}
+									Legg til bilde <div style = "display: flex; margin-left: 10px"><ImagePlus color ="black" size ="1.5em" /> </div>
+								{/if}
+								
+							</label>
+							
+							<input
+								style="visibility: hidden; position:absolute;"
+								type="file"
+								id="many"
+								multiple
+								accept="image/*"
+								bind:files
+								on:change={uploadImage}
+								disabled={uploading}
+							/>
+						</div>
+					</div>
+				</div>
+
+				<button class="logout" on:click={signOut}>Logg ut <div style = "display: flex; margin-left: 10px"><Logout color ="black" size ="1.5em" /> </div></button>
+				
+			</div>
+	{/if}
+	
 
 </div>
 
 <style>
+	.fillSlider {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		height: 99vh; /* Fallback for browsers that do not support Custom Properties */
+  		height: calc(var(--vh, 1vh) * 100);
+		width: 100vw;
+		object-fit: cover;
+
+	}
+	.fillSliderButton {
+		position:absolute;
+		background: none;
+		border: none;
+		z-index: 1;
+	}
+	.center {
+		display: flex;
+		place-content: center;
+		align-items: center;
+	}
+	.sliderButton{
+		display: flex;
+		background-color: rgb(108, 165, 240)!important;
+		align-items: center;
+		justify-content: center;
+		/* visibility: hidden; */
+	}
+	.slider-background{
+		background-color: rgba(0, 0, 0, 0.747);
+		justify-content: center;
+	}
+	.slider{
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		height: 99vh; /* Fallback for browsers that do not support Custom Properties */
+  		height: calc(var(--vh, 1vh) * 100);
+		width: 100vw;
+		object-fit: cover;
+	}
 	.hidden {
 		visibility: hidden;
 		
@@ -352,6 +431,12 @@
 		.loadingVideo {
 			width: 100%;
 		}
+		.sliderButton {
+			visibility: visible;
+		}
+		.slider {
+			width: auto;
+		}
 	}
 	@media only screen and (min-width: 601px) and (max-width: 1000px){
 		.image{
@@ -380,7 +465,6 @@
 	.images{
 		/* margin-bottom: 50px; */
 		/* border: solid rgb(172, 211, 255); */
-
 	}
 
 	.addButton{
