@@ -1,1 +1,2 @@
-## Login med supabase og google Auth med Sveltekit
+## Bildedelingstjeneste med supabase i Sveltekit
+
