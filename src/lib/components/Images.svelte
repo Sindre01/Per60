@@ -159,6 +159,9 @@
 
 
 </script>
+<svelte:head>
+	<link rel="preload" as="video" href="/PerMisterLua.mp4"/>
+</svelte:head>
 
 <div class = "main">
 	<div class:disableScroll = "{playingLoadingScreen}" >
