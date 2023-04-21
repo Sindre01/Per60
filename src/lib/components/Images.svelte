@@ -86,6 +86,7 @@
 				// console.log("No images")
 				alert("Ingen bilder!")
 				noImages = true;
+				playingLoadingScreen = false;
 				images = []
         	
 			}
