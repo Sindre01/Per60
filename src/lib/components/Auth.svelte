@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { goto } from '$app/navigation'
 	import { supabaseClient } from '$lib/supabaseClient'
-	import {USER_Email} from '$env/static/private';
+	import {PUBLIC_USER_EMAIL} from '$env/static/public';
 	// import {UserEmail} from '$env/static/public';
 
 	let loading = false
@@ -11,9 +11,9 @@
 
 	const handleLogin = async () => {
 		try {
-			console.log(UserEmail)
-			if (email.toLowerCase() == UserEmail.substring(0,3).toLowerCase()) {
-				email = UserEmail
+			console.log(PUBLIC_USER_EMAIL)
+			if (email.toLowerCase() == PUBLIC_USER_EMAIL.substring(0,3).toLowerCase()) {
+				email = PUBLIC_USER_EMAIL
 			}
 			console.log("Login")
 			loading = true
