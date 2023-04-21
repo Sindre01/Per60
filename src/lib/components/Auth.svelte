@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { goto } from '$app/navigation'
 	import { supabaseClient } from '$lib/supabaseClient'
+	import {UserEmail} from '$env/static/private';
 
 	let loading = false
 	let email: string
@@ -9,6 +10,10 @@
 
 	const handleLogin = async () => {
 		try {
+			console.log(UserEmail)
+			if (email.toLowerCase() == UserEmail.substring(0,3).toLowerCase()) {
+				email = UserEmail
+			}
 			console.log("Login")
 			loading = true
 			const { data, error } = await supabaseClient.auth.signInWithPassword({

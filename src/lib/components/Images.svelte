@@ -3,6 +3,7 @@
 	import type { AuthSession } from '@supabase/supabase-js'
 	import { supabaseClient } from '$lib/supabaseClient'
 	import {PUBLIC_SUPABASE_URL} from '$env/static/public';
+
 	import JSZip from "jszip";
 	import { saveAs } from 'file-saver';
 	import Download from "svelte-material-icons/Download.svelte";
