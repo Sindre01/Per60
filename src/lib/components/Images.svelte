@@ -39,8 +39,21 @@
 			getImages()
 		}
 	})
+	let timerID = setInterval(function() { //Update imagages every 1 minute if in presentation mode
+			getImages()
+		}, 60 * 1000); // 60 * 1000 milsec
+
+	$: if (!showSlider) {
+		clearInterval(timerID)
+	} else {
+		timerID = setInterval(function() { //Update images every 1 minute if in presentation mode
+			console.log("interval")
+			getImages()
+		}, 60 * 1000); // 60 * 1000 milsec
+	}
 
 	const getImages= async () => {
+		noImages = true;
 		try {
 		
 			playingLoadingScreen = true
@@ -57,18 +70,21 @@
 			if (error) throw error
 			
 			if (data.length > 0 && data[0].name != ".emptyFolderPlaceholder") {
-				console.log("Fetched " + data.length + " images")
+				// console.log("Fetched " + data.length + " images")
 				images = data.filter((image) => image.name != ".emptyFolderPlaceholder");
 				noImages = false;
-
-				setTimeout(function() {
-					console.log("loading timeout")
-					playingLoadingScreen = false
-				}, 3000);
+				if (showSlider) {
+					setTimeout(function() {
+						console.log("loading timeout")
+						playingLoadingScreen = false
+					}, 3000);
+				} else {
+					playingLoadingScreen = false;
+				}
 				
 			} else {
-				console.log("No images")
-				// alert("Ingen bilder!")
+				// console.log("No images")
+				alert("Ingen bilder!")
 				noImages = true;
 				images = []
         	
@@ -191,11 +207,15 @@ let fillSlider=false;
 	{#if showSlider}
 	<div class = "slider-background">
 		<div class ="sliderButtons">
-			<button style="background: none; border: none;" on:click={() => fillSlider = !fillSlider}>
+			<button class = "sliderButtonInside" on:click={() => fillSlider = !fillSlider}>
 				<FitToScreen size="30"  />
 			</button>
-			<button style = "background: none; border: none;" on:click={getImages}>
-				<Refresh size="30"  />
+			<button class = "sliderButtonInside" on:click={getImages}>
+				{#if noImages}
+					<Circle size="30"/> 
+				{:else}
+					<Refresh size="30"  />
+				{/if}
 			</button>
 
 		</div>
@@ -325,6 +345,13 @@ let fillSlider=false;
 		position:absolute;
 		background-color: rgba(0, 0, 0, 0.422);
 		z-index: 1;
+	}
+	.sliderButtonInside{
+		background: none; 
+		border: none;
+	}
+	.sliderButtonInside:hover{
+		Background-color: "red";
 	}
 
 	.center {
