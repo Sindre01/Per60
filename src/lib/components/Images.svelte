@@ -66,16 +66,16 @@
 					offset: 0,
 					sortBy: { column: "created_at", order: "desc"}
 				});
-			console.log(data)
+			// console.log(data)
 			if (error) throw error
 			
 			if (data.length > 0 && data[0].name != ".emptyFolderPlaceholder") {
-				// console.log("Fetched " + data.length + " images")
+				console.log("Fetched " + data.length + " images")
 				images = data.filter((image) => image.name != ".emptyFolderPlaceholder");
 				noImages = false;
 				if (showSlider) {
 					setTimeout(function() {
-						console.log("loading timeout")
+						// console.log("loading timeout")
 						playingLoadingScreen = false
 					}, 3000);
 				} else {
