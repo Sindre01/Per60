@@ -72,7 +72,7 @@
 				console.log("Fetched " + data.length + " images")
 				images = data.filter((image) => image.name != ".emptyFolderPlaceholder");
 				noImages = false;
-				if (showSlider) {
+				if (!showSlider) {
 					setTimeout(function() {
 						// console.log("loading timeout")
 						playingLoadingScreen = false
