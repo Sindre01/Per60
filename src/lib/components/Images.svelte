@@ -8,6 +8,7 @@
 	import { saveAs } from 'file-saver';
 	import Download from "svelte-material-icons/Download.svelte";
 	import FitToScreen from "svelte-material-icons/FitToScreen.svelte";
+	import Refresh from "svelte-material-icons/Refresh.svelte";
 	import PresentationPlay from "svelte-material-icons/PresentationPlay.svelte";
 	import ImagePlus from "svelte-material-icons/ImagePlus.svelte";
 	import Logout from "svelte-material-icons/Logout.svelte";
@@ -47,7 +48,7 @@
 				.storage
 				.from('images')
 				.list(user?.id + "/", {
-					limit: 1000,
+					limit: 2000,
 					offset: 0,
 					sortBy: { column: "created_at", order: "desc"}
 				});
@@ -173,9 +174,15 @@ let fillSlider=false;
 <div class = "main">
 	{#if showSlider}
 	<div class = "slider-background">
-		<button class ="fillSliderButton" on:click={() => fillSlider = !fillSlider}>
-			<FitToScreen size="30"  color="red" />
-		</button>
+		<div class ="sliderButtons">
+			<button style="background: none; border: none;" on:click={() => fillSlider = !fillSlider}>
+				<FitToScreen size="30"  />
+			</button>
+			<button style = "background: none; border: none;" on:click={getImages}>
+				<Refresh size="30"  />
+			</button>
+
+		</div>
 		<Splide options={ { 
 				rewind  : true,
 				autoplay: true,
@@ -292,12 +299,12 @@ let fillSlider=false;
 		object-fit: cover;
 
 	}
-	.fillSliderButton {
+	.sliderButtons {
 		position:absolute;
-		background: none;
-		border: none;
+		background-color: rgba(0, 0, 0, 0.422);
 		z-index: 1;
 	}
+
 	.center {
 		display: flex;
 		place-content: center;
@@ -320,7 +327,7 @@ let fillSlider=false;
 		align-items: center;
 		height: 99vh; /* Fallback for browsers that do not support Custom Properties */
   		height: calc(var(--vh, 1vh) * 100);
-		width: 100vw;
+		width: 100vw; 
 		object-fit: cover;
 	}
 	.hidden {

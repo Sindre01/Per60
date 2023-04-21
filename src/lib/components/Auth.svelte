@@ -1,7 +1,8 @@
 <script lang="ts">
 	import { goto } from '$app/navigation'
 	import { supabaseClient } from '$lib/supabaseClient'
-	import {UserEmail} from '$env/static/private';
+	import {USER_Email} from '$env/static/private';
+	// import {UserEmail} from '$env/static/public';
 
 	let loading = false
 	let email: string
