@@ -53,12 +53,12 @@
 					offset: 0,
 					sortBy: { column: "created_at", order: "desc"}
 				});
-				// console.log(data)
+			console.log(data)
 			if (error) throw error
-
+			
 			if (data.length > 0 && data[0].name != ".emptyFolderPlaceholder") {
 				console.log("Fetched " + data.length + " images")
-				images = data;
+				images = data.filter((image) => image.name != ".emptyFolderPlaceholder");
 				noImages = false;
 
 				setTimeout(function() {
@@ -70,6 +70,7 @@
 				console.log("No images")
 				// alert("Ingen bilder!")
 				noImages = true;
+				images = []
         	
 			}
 
@@ -203,9 +204,9 @@ let fillSlider=false;
 				autoplay: true,
 				arrows  : false,
 				perPage : 1,
-				// start: 0,
+				start: Math.floor(Math.random() * images.length),
 				trimSpace : true,
-				interval: 5000 //10sek
+				interval: 5000 //5sek
 				} 
 				} hasTrack={ false } 
 				aria-label="My Favorite Images">
@@ -253,6 +254,7 @@ let fillSlider=false;
 					<div class ="images"> 		
 					
 						{#each images as image, i}
+						
 							<div >
 								{#if i < 2}
 								<!-- {console.log("lazy on" + image.name)} -->
@@ -262,6 +264,7 @@ let fillSlider=false;
 									<img loading="lazy" style = " margin: 0px;" class = "image" src={supabase_url + user.id + "/" + image.name} alt=""/>
 								{/if}
 							</div>
+							
 						{:else}
 				
 							<div class = "loadingScreen">
