@@ -251,9 +251,9 @@ let fillSlider=false;
 						<div style="">
 							<label class="button primary upload" style = "padding: 20px;"for="many">
 								{#if uploading}
-									Laster opp bilde <div style = "display: flex; margin-left: 10px"><Circle size="30" color=" #001eff" unit="px" duration="1s" /> </div>
+									Laster opp bilder <div style = "display: flex; margin-left: 10px"><Circle size="30" color=" #001eff" unit="px" duration="1s" /> </div>
 								{:else}
-									Legg til bilde <div style = "display: flex; margin-left: 10px"><ImagePlus color ="black" size ="1.5em" /> </div>
+									Legg til bilder <div style = "display: flex; margin-left: 10px"><ImagePlus color ="black" size ="1.5em" /> </div>
 								{/if}
 								
 							</label>

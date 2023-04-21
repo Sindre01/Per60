@@ -30,6 +30,7 @@
 		"@splidejs/svelte-splide": "^0.2.9",
 		"@supabase/auth-helpers-sveltekit": "^0.8.3",
 		"@supabase/supabase-js": "^2.0.4",
+		"@vercel/analytics": "^1.0.0",
 		"file-saver": "^2.0.5",
 		"jszip": "^3.10.1",
 		"svelte-loading-spinners": "^0.3.4",
