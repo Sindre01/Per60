@@ -3,7 +3,6 @@
 	import type { AuthSession } from '@supabase/supabase-js'
 	import { supabaseClient } from '$lib/supabaseClient'
 	import {PUBLIC_SUPABASE_URL} from '$env/static/public';
-
 	import JSZip from "jszip";
 	import { saveAs } from 'file-saver';
 	import Download from "svelte-material-icons/Download.svelte";
@@ -92,7 +91,7 @@
 			}
 
 		} catch {
-			alert("Feil ved lasing av bilder");
+			alert("Feil ved lasting av bilder");
 			
 		}
 	}
@@ -223,11 +222,12 @@ let fillSlider=false;
 		<Splide options={ { 
 				rewind  : true,
 				autoplay: true,
-				arrows  : false,
+				arrows  : true,
 				perPage : 1,
 				// start: Math.floor(Math.random() * images.length),
 				trimSpace : true,
-				interval: 5000 //5sek
+				interval: 5000, //5sek,
+				pagination: (images.length < 100)
 				} 
 				} hasTrack={ false } 
 				aria-label="My Favorite Images">
