@@ -19,7 +19,7 @@
 			loading = true
 			const { data, error } = await supabaseClient.auth.signInWithPassword({
 				email: email,
-				password: password,
+				password: password.toLowerCase(),
 			})
 			if (error) throw error
 		
@@ -36,7 +36,7 @@
 			
 		}
 	}
-		const handleSignUp = async () => {
+	const handleSignUp = async () => {
 		try {
 			console.log("Login")
 			loading = true
@@ -57,6 +57,25 @@
 			
 		}
 	}
+	const handleNewPassword = async () => {
+		try {
+			console.log("nytt passord")
+			// loading = true
+			const { data, error } = await supabaseClient.auth.resetPasswordForEmail(email)
+	
+			if (error) throw error
+			alert("Sjekk mailen din")
+			console.log(data)
+			
+		} catch (error) {
+			if (error instanceof Error) {
+				alert(error.message)
+			}
+		} finally {
+			// loading = false
+			
+		}
+	}
 
 
 </script>
@@ -65,14 +84,15 @@
 	<div class="col-6 form-widget login">
 		<h1 class="header">Per 60 år <span style='font-size:50px;'>&#127881;</span></h1>
 
-		<p class="description">Logg inn for å bidra med bilder</p>
+		<p class="description">Logg inn for å bidra med bilder!</p>
 		<div>
 			<input class="" placeholder="Brukernavn" bind:value={email} />
 			<input class="" placeholder="Passord" bind:value={password} />
 		</div>
 		<div>
 			<button class="button block" disabled={loading} on:click={handleLogin}> {loading ? 'Loading' : 'Logg inn'} </button>
-			<!-- <button class="button block" disabled={loading} on:click={handleSignUp}> {"Registrer ny bruker"} </button> -->
+			<!-- <button class="button block" disabled={loading} on:click={handleSignUp}> {"Registrer ny bruker"} </button>
+			<button class="button block" disabled={loading} on:click={handleNewPassword}> {"Nytt passord"} </button> -->
 		
 	
 			

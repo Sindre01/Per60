@@ -32,6 +32,7 @@
 	let downloading = false;
 	let files: FileList
 	let playingLoadingScreen = true
+	let newPassword = "";
 
 	onMount(() => {
 		if (user){
@@ -164,6 +165,20 @@
 			// loading = false
 		}
 	}
+	const resetPassword = async () => {
+		try {
+			// loading = true
+			let { error } = await supabaseClient.auth.updateUser({password: newPassword})
+			if (error) throw error
+			
+		} catch (error) {
+			if (error instanceof Error) {
+				alert(error.message)
+			}
+		} finally {
+			// loading = false
+		}
+	}
 
 let fillSlider=false;
 </script>
@@ -190,7 +205,7 @@ let fillSlider=false;
 				perPage : 1,
 				// start: 0,
 				trimSpace : true,
-				interval: 10000 //10sek
+				interval: 5000 //10sek
 				} 
 				} hasTrack={ false } 
 				aria-label="My Favorite Images">
@@ -218,6 +233,10 @@ let fillSlider=false;
 				{/if}
 				<div style="" class = "container" class:hidden = "{playingLoadingScreen}" >
 					<!-- <h1>Bilder</h1> -->
+					<!-- <div class="form-widget" >
+						<input class="" placeholder="nytt passord" bind:value={newPassword} />
+						<button class="" on:click={resetPassword}>Reset passord </button>
+					</div> -->
 					<div class="form-widget" >
 						<button class="download sliderButton" on:click={() => showSlider = true}>Presentasjon <div style = "display: flex; margin-left: 10px"><PresentationPlay size="30"  color="black" /> </div></button>
 					</div>
