@@ -11,15 +11,17 @@
 
 	const handleLogin = async () => {
 		try {
-			console.log(PUBLIC_USER_EMAIL)
+			// console.log(PUBLIC_USER_EMAIL)
 			if (email.toLowerCase() == PUBLIC_USER_EMAIL.substring(0,3).toLowerCase()) {
 				email = PUBLIC_USER_EMAIL
+				password = password.toLowerCase()
 			}
 			console.log("Login")
 			loading = true
+			console.log(password)
 			const { data, error } = await supabaseClient.auth.signInWithPassword({
 				email: email,
-				password: password.toLowerCase(),
+				password: password,
 			})
 			if (error) throw error
 		
