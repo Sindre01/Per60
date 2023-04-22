@@ -226,7 +226,7 @@ let fillSlider=false;
 				perPage : 1,
 				// start: Math.floor(Math.random() * images.length),
 				trimSpace : true,
-				interval: 5000, //5sek,
+				interval: 10000, //5sek,
 				pagination: (images.length < 100)
 				} 
 				} hasTrack={ false } 
