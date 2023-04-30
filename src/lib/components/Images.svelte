@@ -128,7 +128,9 @@
 			setTimeout(function() {
 				downloading = false;
 				console.log("downloading timeout")
+				alert("Vent litt! bildene lastes ned..")
 			}, 5000);
+
 		}
 	}
 	
