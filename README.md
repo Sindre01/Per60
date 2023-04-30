@@ -9,6 +9,18 @@ Denne ble aktivt brukt og det ble ganske vellykket!
 **PS: Bryter noen standarder for sikkerhet, men passord blir lagret sikkert med supabase.
 Skjermer:
 
-![Top](about/Per60Top.png)
-![Scroll](about/Per60Scroll.png)
-![Presentation](about/Per60Presentation.png)
+<img
+  src="about/Per60Top.png"
+  alt="Alt text"
+  title="Optional title"
+  style="display: inline-block; margin: 0 auto; max-width: 300px">
+<img
+  src="about/Per60Scroll.png"
+  alt="Alt text"
+  title="Optional title"
+  style="display: inline-block; margin: 0 auto; max-width: 300px">
+<img
+  src="about/Per60Presentation.png"
+  alt="Alt text"
+  title="Optional title"
+  style="display: inline-block; margin: 0 auto; max-width: 300px">
