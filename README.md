@@ -7,3 +7,8 @@ Man kunne deretter laste ned alle bildene som ble tatt i løpet av helgen.
 Denne ble aktivt brukt og det ble ganske vellykket!
 
 **PS: Bryter noen standarder for sikkerhet, men passord blir lagret sikkert med supabase.
+Skjermer:
+
+![Top](about/Per60Top.png)
+![Scroll](about/Per60Scroll.png)
+![Presentation](about/Per60Presentation.png)
