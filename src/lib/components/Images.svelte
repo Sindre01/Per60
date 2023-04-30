@@ -110,7 +110,7 @@
 						if (r.status === 200) return r.blob()
 						return Promise.reject(new Error(r.statusText))
 					})
-					const name = imageUrl.substring(imageUrl.lastIndexOf('/')+1)
+					const name = imageUrl.substring(imageUrl.lastIndexOf('/')+1) + ".jpeg"
 					folder!.file(name, blobPromise)
 					
 				})
